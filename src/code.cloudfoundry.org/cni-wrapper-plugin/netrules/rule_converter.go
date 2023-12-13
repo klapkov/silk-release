@@ -60,14 +60,14 @@ func (c *RuleConverter) BulkConvert(ruleSpec []Rule, logChainName string, global
 }
 
 func (c *RuleConverter) DeduplicateRules(iptablesRules []rules.IPTablesRule) []rules.IPTablesRule {
-	keys := make(map[string]bool)
-	dedupedRules := []rules.IPTablesRule{}
+	keys := make(map[string]struct{}, len(iptablesRules))
+	dedupedRules := iptablesRules[:0]
 
+	var key string
 	for _, rule := range iptablesRules {
-		key := strings.Join(rule, " ")
-		if !keys[key] {
-
-			keys[key] = true
+		key = strings.Join(rule, " ")
+		if _, exists := keys[key]; !exists {
+			keys[key] = struct{}{}
 			dedupedRules = append(dedupedRules, rule)
 		}
 	}
