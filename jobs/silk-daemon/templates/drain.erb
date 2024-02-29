@@ -31,7 +31,7 @@ shutdown_silk_daemon() {
     --containerMetadataFile "${DATASTORE}" \
     --silkDaemonUrl "http://${SILK_DAEMON_HEALTH_CHECK_ADDRESS}/ping" \
     --silkDaemonPidPath "${PIDFILE}" \
-    --iptablesLockFile "/var/vcap/data/garden-cni/iptables.lock"
+    --iptablesLockFile "/var/vcap/data/garden-cni/iptables.lock" \ 
     --containerMetadataFileCheckTimeout ${CHECK_TIMEOUT}
 }
 
