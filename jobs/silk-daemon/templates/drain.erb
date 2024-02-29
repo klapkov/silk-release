@@ -5,6 +5,8 @@ set -o pipefail
 
 export PATH="<%= link("iptables").p("garden.iptables_bin_dir") %>:$PATH"
 
+CHECK_TIMEOUT=<%= p("container_metadata_file_check_timeout") %>
+
 LOG_DIR=/var/vcap/sys/log/silk-daemon
 LOGFILE="${LOG_DIR}"/drain.log
 SILK_DAEMON_HEALTH_CHECK_ADDRESS=localhost:<%= p("listen_port") %>
@@ -30,6 +32,7 @@ shutdown_silk_daemon() {
     --silkDaemonUrl "http://${SILK_DAEMON_HEALTH_CHECK_ADDRESS}/ping" \
     --silkDaemonPidPath "${PIDFILE}" \
     --iptablesLockFile "/var/vcap/data/garden-cni/iptables.lock"
+    --containerMetadataFileCheckTimeout ${CHECK_TIMEOUT}
 }
 
 output_for_bosh() {
